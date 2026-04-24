@@ -23,32 +23,16 @@ This is the core loop: feed tool results back to the model
 until the model decides to stop. Production agents layer
 policy, hooks, and lifecycle controls on top.
 """
-
 import os
 import subprocess
-
-try:
-    import readline
-    # #143 UTF-8 backspace fix for macOS libedit
-    readline.parse_and_bind('set bind-tty-special-chars off')
-    readline.parse_and_bind('set input-meta on')
-    readline.parse_and_bind('set output-meta on')
-    readline.parse_and_bind('set convert-meta off')
-    readline.parse_and_bind('set enable-meta-keybindings on')
-except ImportError:
-    pass
-
 from anthropic import Anthropic
 from dotenv import load_dotenv
-
-load_dotenv(override=True)
-
+load_dotenv()
 if os.getenv("ANTHROPIC_BASE_URL"):
     os.environ.pop("ANTHROPIC_AUTH_TOKEN", None)
 
 client = Anthropic(base_url=os.getenv("ANTHROPIC_BASE_URL"))
 MODEL = os.environ["MODEL_ID"]
-
 SYSTEM = f"You are a coding agent at {os.getcwd()}. Use bash to solve tasks. Act, don't explain."
 
 TOOLS = [{
