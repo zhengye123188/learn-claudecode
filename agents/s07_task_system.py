@@ -58,7 +58,7 @@ class TaskManager:
         path = self.dir / f"task_{task_id}.json"
         if not path.exists():
             raise ValueError(f"Task {task_id} not found")
-        return json.loads(path.read_text())
+        return json.loads(path.read_text()) # 返回字典
 
     def _save(self, task: dict):
         path = self.dir / f"task_{task['id']}.json"
@@ -119,7 +119,6 @@ class TaskManager:
 
 
 TASKS = TaskManager(TASKS_DIR)
-
 
 # -- Base tool implementations --
 def safe_path(p: str) -> Path:
